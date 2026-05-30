@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Weight Loss Consultation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#0B0B0C',
+                            dark: '#161618',
+                            gray: '#242427',
+                            orange: '#ff5722',
+                            orangeHover: '#e64a19'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .transition-all-300 {
+            transition: all 0.3s ease-in-out;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0B0C;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #242427;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff5722;
+        }
+    </style>
+</head>
+<body class="bg-brand-black text-gray-100 min-h-screen font-sans antialiased selection:bg-brand-orange selection:text-white">
+
+    <header class="sticky top-0 z-40 bg-brand-black/90 backdrop-blur-md border-b border-gray-800/60">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-brand-orange rounded-xl flex items-center justify-center font-black text-xl text-white shadow-lg shadow-brand-orange/20 group-hover:scale-105 transition-all-300">
+                    W
+                </div>
+                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                    WEIGHT<span class="text-brand-orange">LOSS</span>
+                </span>
+            </a>
+
+            <button onclick="openModal()" class="bg-gradient-to-r from-brand-orange to-orange-500 hover:from-brand-orangeHover hover:to-orange-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-brand-orange/20 hover:shadow-brand-orange/40 transform hover:-translate-y-0.5 active:translate-y-0 transition-all-300 text-sm md:text-base">
+                Get Started
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+        <div class="bg-brand-dark rounded-2xl shadow-2xl border border-gray-800/40 overflow-hidden">
+            
+            <div class="bg-gradient-to-r from-red-600 to-brand-orange text-white text-center p-3 text-sm sm:text-base font-bold tracking-wide uppercase shadow-inner">
+                ⚡ Watch Full Video Don’t Miss Important Info! -|- पूरा वीडियो देखिये
+            </div>
+
+            <div class="relative w-full aspect-video bg-black group">
+                <iframe
+                    id="vimeo-video"
+                    src="https://player.vimeo.com/video/1111314631?autoplay=1&muted=1&background=0"
+                    class="absolute top-0 left-0 w-full h-full"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    title="VSL Presentation">
+                </iframe>
+
+                <div id="unmute-overlay" 
+                     class="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center cursor-pointer z-10 transition-all-300 group-hover:bg-black/60">
+                    <div class="bg-brand-orange hover:bg-brand-orangeHover text-white font-bold px-8 py-4 rounded-full flex items-center gap-3 text-lg shadow-xl shadow-brand-orange/30 animate-bounce transition-all-300">
+                        <span>🔊</span> Tap to Unmute & Listen
+                    </div>
+                    <p class="text-gray-400 text-xs mt-3 tracking-wider uppercase">Ensure your device volume is turned up</p>
+                </div>
+            </div>
+
+            <div id="cta-button" class="text-center p-8 bg-brand-dark border-t border-gray-800/40 hidden">
+                <button onclick="openModal()" 
+                        class="inline-block w-full sm:w-auto bg-gradient-to-r from-brand-orange to-orange-500 hover:from-brand-orangeHover hover:to-orange-600 text-white rounded-xl px-12 py-5 font-black text-xl tracking-wide shadow-2xl shadow-brand-orange/30 transform hover:scale-[1.03] transition-all-300 cursor-pointer">
+                    Book Your Consultation Now
+                </button>
+                <p class="text-gray-500 text-xs mt-3">Limited slots available for this month's intake schedule.</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="plan-modal" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-black/80 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
+        
+        <div class="bg-brand-dark border border-gray-800 rounded-3xl w-full max-w-5xl max-h-[92vh] overflow-y-auto shadow-2xl transform scale-95 transition-transform duration-300 relative">
+            
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white bg-brand-gray w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold transition-colors z-20">
+                &times;
+            </button>
+
+            <div class="p-5 md:p-8">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+                        Choose Your <span class="text-brand-orange">Transformation Plan</span>
+                    </h3>
+                    <p class="text-gray-400 mt-1 text-sm">Select a plan below to reveal program guidelines and confirm registration.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    
+                    <div id="card-6k" onclick="selectPlan('6k')" 
+                         class="bg-brand-gray/30 border-2 border-gray-800 rounded-2xl p-5 cursor-pointer hover:border-gray-700 transition-all-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-lg font-bold text-white group-hover:text-brand-orange transition-colors">Standard Program</h4>
+                                <span class="bg-gray-800 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">1 Month Validity</span>
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-3xl font-black text-white">₹5,999</span>
+                                <span class="text-gray-500 text-xs"> / total</span>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <span class="text-xs font-bold text-brand-orange tracking-wider uppercase block mb-1">What You Get:</span>
+                                    <ul class="space-y-2 text-xs text-gray-300">
+                                        <li class="flex items-center gap-2">📹 <span>Video Call Consultation</span></li>
+                                        <li class="flex items-center gap-2">🍳 <span>Home Cooked based Diet Plan</span></li>
+                                        <li class="flex items-center gap-2">🔄 <span>2 Day Weekly Followup</span></li>
+                                        <li class="flex items-center gap-2">📖 <span>Diet Recipe Book</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <div class="w-full text-center py-2 rounded-xl border border-gray-700 font-semibold text-xs transition-colors select-indicator text-gray-400">
+                                Select Plan
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="card-10k" onclick="selectPlan('10k')" 
+                         class="bg-brand-gray/30 border-2 border-gray-800 rounded-2xl p-5 cursor-pointer hover:border-gray-700 transition-all-300 flex flex-col justify-between group relative">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-orange text-white text-[10px] font-bold tracking-widest uppercase px-3 py-0.5 rounded-full shadow-lg">
+                            Premium Choice
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-lg font-bold text-white group-hover:text-brand-orange transition-colors">Elite Intensive Program</h4>
+                                <span class="bg-brand-orange/20 text-brand-orange text-xs font-semibold px-2.5 py-1 rounded">1 Month Validity</span>
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-3xl font-black text-white">₹10,000</span>
+                                <span class="text-gray-500 text-xs"> / total</span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <span class="text-xs font-bold text-brand-orange tracking-wider uppercase block mb-1">Phase 1:</span>
+                                    <ul class="space-y-1.5 text-xs text-gray-300">
+                                        <li class="flex items-center gap-2">🤝 <span>Physical Meeting + Video Call Consultation</span></li>
+                                        <li class="flex items-center gap-2">🍳 <span>Home Cooked based Diet Plan</span></li>
+                                        <li class="flex items-center gap-2">📖 <span>Diet Recipe Book</span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-brand-orange tracking-wider uppercase block mb-1">Phase 2:</span>
+                                    <ul class="space-y-1.5 text-xs text-gray-300">
+                                        <li class="flex items-center gap-2">📞 <span>Daily Followup call</span></li>
+                                        <li class="flex items-center gap-2">🏋️ <span>Exercise Book</span></li>
+                                        <li class="flex items-center gap-2">🧘 <span>Live Fat-Burning Yoga (30 Sessions)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <div class="w-full text-center py-2 rounded-xl border border-gray-700 font-semibold text-xs transition-colors select-indicator text-gray-400">
+                                Select Plan
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-brand-black/40 border border-gray-800 rounded-xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <h5 class="font-bold text-white mb-2 text-brand-orange">🌟 Why Choose Us!</h5>
+                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                            <li>Focused on Home cooked meals</li>
+                            <li>No Supplement Needed</li>
+                            <li>Personalized to your lifestyle</li>
+                            <li>Expert Guidance and Support</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-white mb-1.5 text-red-400">📋 Guidelines & Policy</h5>
+                        <p class="text-gray-400 leading-relaxed mb-1">
+                            <strong class="text-gray-300">Custom Prep:</strong> Ready within 24–48 hours after consultation.
+                        </p>
+                        <p class="text-gray-400 leading-relaxed">
+                            <strong class="text-gray-300">Activation & Refunds:</strong> Must start within 7 days. Plan valid for 30 days. Strictly no refunds under any circumstances.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-800 pt-4 space-y-3">
+                    <label class="flex items-start gap-3 cursor-pointer select-none group">
+                        <input type="checkbox" id="agree-checkbox" onchange="validateForm()" 
+                               class="w-4 h-4 rounded border-gray-700 bg-brand-gray text-brand-orange focus:ring-brand-orange focus:ring-offset-brand-dark transition-all duration-200 mt-0.5">
+                        <span class="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+                            I confirm that I have read the program guidelines, activation rules, and the strict no-refund policy. I agree to proceed with my chosen weight loss consultation structure.
+                        </span>
+                    </label>
+
+                    <button id="checkout-btn" onclick="redirectToPayment()" disabled
+                            class="w-full bg-gray-700 text-gray-400 font-bold py-3.5 rounded-xl text-base tracking-wide transition-all-300 cursor-not-allowed shadow-lg">
+                        Please Select a Plan
+                    </button>
+                    
+                    <p class="text-center text-[11px] font-bold text-brand-orange tracking-wide pt-1">
+                        Contact us today to start your journey to Better Health
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const iframe = document.getElementById('vimeo-video');
+        const player = new Vimeo.Player(iframe);
+        const unmuteOverlay = document.getElementById("unmute-overlay");
+        const ctaButton = document.getElementById("cta-button");
+        const planModal = document.getElementById("plan-modal");
+        const agreeCheckbox = document.getElementById("agree-checkbox");
+        const checkoutBtn = document.getElementById("checkout-btn");
+
+        let selectedPlanId = null;
+
+        // Dedicated links per your configuration
+        const formRoutes = {
+            '6k': 'https://tally.so/r/mVrRy6?plan=6k', 
+            '10k': 'https://tally.so/r/mVrRy6?plan=10k'
+        };
+
+        /* VIMEO PLAYER CONTROLLER */
+        unmuteOverlay.addEventListener("click", function() {
+            player.setVolume(1).catch(err => console.log(err));
+            unmuteOverlay.classList.add("opacity-0");
+            setTimeout(() => unmuteOverlay.style.display = "none", 300);
+        });
+
+        player.on('timeupdate', function(data) {
+            if (data.seconds >= 4) {
+                ctaButton.style.display = "block";
+                ctaButton.classList.remove("hidden");
+            }
+        });
+
+        /* MODAL INTERFACES CONTROLLERS */
+        function openModal() {
+            planModal.classList.remove("pointer-events-none", "opacity-0");
+            planModal.querySelector('.transform').classList.remove("scale-95");
+            planModal.querySelector('.transform').classList.add("scale-100");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            planModal.classList.add("pointer-events-none", "opacity-0");
+            planModal.querySelector('.transform').classList.remove("scale-100");
+            planModal.querySelector('.transform').classList.add("scale-95");
+            document.body.style.overflow = "auto";
+        }
+
+        planModal.addEventListener("click", function(e) {
+            if(e.target === planModal) closeModal();
+        });
+
+        /* PRICING ENGINE LOGIC SETUP */
+        function selectPlan(plan) {
+            selectedPlanId = plan;
+            
+            const card6k = document.getElementById("card-6k");
+            const card10k = document.getElementById("card-10k");
+            
+            [card6k, card10k].forEach(card => {
+                card.classList.remove("border-brand-orange", "bg-brand-orange/5");
+                card.classList.add("border-gray-800");
+                card.querySelector('.select-indicator').innerText = "Select Plan";
+                card.querySelector('.select-indicator').className = "w-full text-center py-2 rounded-xl border border-gray-700 font-semibold text-xs transition-colors select-indicator text-gray-400";
+            });
+
+            const activeCard = document.getElementById(`card-${plan}`);
+            activeCard.classList.remove("border-gray-800");
+            activeCard.classList.add("border-brand-orange", "bg-brand-orange/5");
+            activeCard.querySelector('.select-indicator').innerText = "Selected ✓";
+            activeCard.querySelector('.select-indicator').className = "w-full text-center py-2 rounded-xl bg-brand-orange font-bold text-xs text-white shadow-md shadow-brand-orange/20 select-indicator";
+
+            validateForm();
+        }
+
+        /* ACTIONS STATE & DISPATCH EVALUATOR ENGINE */
+        function validateForm() {
+            if (selectedPlanId && agreeCheckbox.checked) {
+                checkoutBtn.removeAttribute("disabled");
+                checkoutBtn.className = "w-full bg-gradient-to-r from-brand-orange to-orange-500 hover:from-brand-orangeHover hover:to-orange-600 text-white font-black py-3.5 rounded-xl text-base tracking-wide transform hover:-translate-y-0.5 active:translate-y-0 transition-all-300 cursor-pointer shadow-lg shadow-brand-orange/20 hover:shadow-brand-orange/40";
+                checkoutBtn.innerText = `Proceed to Consultation (₹${selectedPlanId === '6k' ? '5,599' : '10,000'})`;
+            } else {
+                checkoutBtn.setAttribute("disabled", "true");
+                checkoutBtn.className = "w-full bg-gray-700 text-gray-400 font-bold py-3.5 rounded-xl text-base tracking-wide transition-all-300 cursor-not-allowed shadow-lg";
+                
+                if (!selectedPlanId) {
+                    checkoutBtn.innerText = "Please Select a Plan";
+                } else {
+                    checkoutBtn.innerText = "Please Check the Confirmation Box";
+                }
+            }
+        }
+
+        function redirectToPayment() {
+            if (selectedPlanId && agreeCheckbox.checked) {
+                const targetUrl = formRoutes[selectedPlanId];
+                window.open(targetUrl, "_self");
+            }
+        }
+    </script>
+</body>
+</html>
