@@ -1,336 +1,895 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Weight Loss Consultation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>TransformX — Weight Loss Program</title>
     <script src="https://player.vimeo.com/api/player.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            black: '#0B0B0C',
-                            dark: '#161618',
-                            gray: '#242427',
-                            orange: '#ff5722',
-                            orangeHover: '#e64a19'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .transition-all-300 {
-            transition: all 0.3s ease-in-out;
+        :root {
+            --orange: #FF5722;
+            --orange-hot: #FF3D00;
+            --orange-glow: rgba(255,87,34,0.35);
+            --orange-light: #FF8A65;
+            --black: #0A0A0A;
+            --black-card: #131313;
+            --black-surface: #1A1A1A;
+            --black-border: #2A2A2A;
+            --white: #FFFFFF;
+            --white-dim: rgba(255,255,255,0.7);
+            --white-faint: rgba(255,255,255,0.08);
         }
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Sora', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        ::-webkit-scrollbar-track {
-            background: #0B0B0C;
+
+        /* ── NOISE TEXTURE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #242427;
+
+        /* ── NAVBAR ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--black-border);
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-hot));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: white;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 20px var(--orange-glow);
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            letter-spacing: 2px;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .logo-text span { color: var(--orange); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--orange), var(--orange-hot));
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px var(--orange-glow);
+            white-space: nowrap;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--orange-glow);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            padding: 60px 5% 80px;
+            text-align: center;
+            background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(255,87,34,0.12), transparent);
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--white-faint);
+            border: 1px solid var(--black-border);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--orange-light);
+            margin-bottom: 24px;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--orange);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.4); }
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(42px, 8vw, 88px);
+            line-height: 0.95;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--orange);
+            display: block;
+            text-shadow: 0 0 60px var(--orange-glow);
+        }
+
+        .hero-sub {
+            font-size: clamp(15px, 2vw, 18px);
+            color: var(--white-dim);
+            max-width: 540px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ── VIDEO SECTION ── */
+        .video-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .video-banner {
+            background: linear-gradient(90deg, var(--orange-hot), var(--orange));
+            color: white;
+            text-align: center;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: clamp(13px, 2vw, 15px);
+            letter-spacing: 0.3px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .video-banner span { opacity: 0.85; font-weight: 400; }
+
+        .video-container {
+            background: #000;
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px var(--black-border), 0 0 60px var(--orange-glow);
+        }
+
+        .video-aspect {
+            position: relative;
+            width: 100%;
+            padding: 56.25% 0 0 0;
+        }
+
+        .video-aspect iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .unmute-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: clamp(13px, 2.5vw, 16px);
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .unmute-overlay:hover {
+            background: rgba(255,87,34,0.85);
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        /* ── CTA BUTTON ── */
+        .cta-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 28px 5% 0;
+            text-align: center;
+            display: none;
+        }
+
+        .cta-main-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--orange), var(--orange-hot));
+            color: white;
+            text-decoration: none;
+            padding: 18px 48px;
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+            font-size: clamp(16px, 2.5vw, 20px);
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 8px 32px var(--orange-glow), 0 2px 8px rgba(0,0,0,0.4);
+            transition: transform 0.25s, box-shadow 0.25s;
+            animation: cta-appear 0.6s ease forwards;
+        }
+
+        @keyframes cta-appear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cta-main-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 16px 48px var(--orange-glow), 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .cta-sub {
+            margin-top: 12px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.5px;
+        }
+
+        /* ── MODAL OVERLAY ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--black-card);
+            border: 1px solid var(--black-border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 960px;
+            margin: auto;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,87,34,0.1);
+            animation: modal-pop 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+
+        @keyframes modal-pop {
+            from { opacity: 0; transform: scale(0.92) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, var(--orange-hot), var(--orange));
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(22px, 4vw, 30px);
+            letter-spacing: 2px;
+            color: white;
+        }
+
+        .modal-close {
+            background: rgba(0,0,0,0.25);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover { background: rgba(0,0,0,0.5); transform: rotate(90deg); }
+
+        .modal-subheading {
+            text-align: center;
+            padding: 20px 28px 0;
+            font-size: clamp(13px, 2vw, 15px);
+            color: var(--white-dim);
+            font-weight: 300;
+        }
+
+        /* ── PLANS GRID ── */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px 24px;
+        }
+
+        @media (max-width: 640px) {
+            .plans-grid { grid-template-columns: 1fr; }
+        }
+
+        .plan-card {
+            background: var(--black-surface);
+            border: 2px solid var(--black-border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+
+        .plan-card.selected,
+        .plan-card:has(input:checked) {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 1px var(--orange), 0 8px 32px var(--orange-glow);
+            transform: translateY(-2px);
+        }
+
+        .plan-card.featured {
+            border-color: rgba(255,87,34,0.4);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--orange-hot), var(--orange));
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+
+        .plan-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .plan-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            line-height: 1;
+            color: var(--orange);
+            margin-bottom: 4px;
+            text-shadow: 0 0 30px var(--orange-glow);
+        }
+
+        .plan-price sup {
+            font-size: 22px;
+            vertical-align: super;
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+        }
+
+        .plan-duration {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-divider {
+            height: 1px;
+            background: var(--black-border);
+            margin-bottom: 18px;
+        }
+
+        .plan-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .plan-feature .check {
+            color: var(--orange);
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ── PLAN SECTION LABELS & PHASE TAGS ── */
+        .plan-section-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--orange-light);
+            margin: 14px 0 8px;
+        }
+
+        .plan-phase-tag {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--orange-hot), var(--orange));
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
             border-radius: 4px;
+            margin-bottom: 8px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ff5722;
+
+        .plan-note {
+            background: rgba(255,87,34,0.07);
+            border-left: 3px solid var(--orange);
+            border-radius: 0 6px 6px 0;
+            padding: 8px 12px;
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 14px;
+            line-height: 1.6;
+        }
+
+        .plan-note strong { color: rgba(255,255,255,0.75); }
+
+        /* ── RADIO SELECT ── */
+        .plan-select-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--black-border);
+        }
+
+        .plan-radio {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--orange);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .plan-select-row label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--white-dim);
+            cursor: pointer;
+        }
+
+        /* ── AGREEMENT SECTION ── */
+        .agreement-section {
+            padding: 0 24px 20px;
+        }
+
+        .agreement-box {
+            background: var(--black-surface);
+            border: 1px solid var(--black-border);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        .agreement-check-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .agreement-check {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--orange);
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .agreement-check-row label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .agreement-check-row label strong { color: var(--white); }
+
+        /* ── PAYMENT BUTTON ── */
+        .payment-section {
+            padding: 8px 24px 28px;
+            text-align: center;
+        }
+
+        .pay-btn {
+            display: inline-block;
+            width: 100%;
+            max-width: 440px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-hot));
+            color: white;
+            text-decoration: none;
+            padding: 18px 32px;
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+            font-size: clamp(15px, 2.5vw, 18px);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 28px var(--orange-glow);
+            transition: transform 0.25s, box-shadow 0.25s, opacity 0.25s;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .pay-btn.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .pay-btn.active:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px var(--orange-glow);
+        }
+
+        .pay-note {
+            margin-top: 12px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .error-msg {
+            color: #FF5252;
+            font-size: 12px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 5%;
+            border-top: 1px solid var(--black-border);
+            margin-top: 80px;
+        }
+
+        footer p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+            line-height: 1.8;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--black-border); border-radius: 3px; }
+
+        /* ── RESPONSIVE TWEAKS ── */
+        @media (max-width: 480px) {
+            nav { padding: 0 16px; }
+            .logo-text { font-size: 20px; }
+            .nav-cta { padding: 8px 14px; font-size: 12px; }
+            .modal-header { padding: 16px 16px; }
+            .plans-grid { padding: 16px 14px; gap: 14px; }
+            .agreement-section, .payment-section { padding-left: 14px; padding-right: 14px; }
+            .plan-card { padding: 20px 16px; }
         }
     </style>
 </head>
-<body class="bg-brand-black text-gray-100 min-h-screen font-sans antialiased selection:bg-brand-orange selection:text-white">
+<body>
 
-    <header class="sticky top-0 z-40 bg-brand-black/90 backdrop-blur-md border-b border-gray-800/60">
-        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 bg-brand-orange rounded-xl flex items-center justify-center font-black text-xl text-white shadow-lg shadow-brand-orange/20 group-hover:scale-105 transition-all-300">
-                    W
-                </div>
-                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                    WEIGHT<span class="text-brand-orange">LOSS</span>
-                </span>
-            </a>
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<nav>
+    <a href="#" class="nav-logo">
+        <div class="logo-icon">TX</div>
+        <div class="logo-text">TRANSFORM<span>X</span></div>
+    </a>
+    <button class="nav-cta" onclick="openModal()">Get Started →</button>
+</nav>
 
-            <button onclick="openModal()" class="bg-gradient-to-r from-brand-orange to-orange-500 hover:from-brand-orangeHover hover:to-orange-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-brand-orange/20 hover:shadow-brand-orange/40 transform hover:-translate-y-0.5 active:translate-y-0 transition-all-300 text-sm md:text-base">
-                Get Started
-            </button>
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+    <div class="hero-eyebrow">🔥 Limited Spots Available</div>
+    <h1>
+        LOSE WEIGHT.
+        <span class="highlight">TRANSFORM LIFE.</span>
+    </h1>
+    <p class="hero-sub">Watch this short video to discover our proven weight loss system. Real results, real people — no gimmicks.</p>
+
+    <!-- VIDEO -->
+    <div class="video-wrapper">
+        <div class="video-banner">
+            ⚡ Watch Full Video — Don't Miss Important Info! &nbsp;<span>| पूरा वीडियो देखिये</span>
         </div>
-    </header>
-
-    <main class="max-w-4xl mx-auto px-4 py-8 md:py-12">
-        <div class="bg-brand-dark rounded-2xl shadow-2xl border border-gray-800/40 overflow-hidden">
-            
-            <div class="bg-gradient-to-r from-red-600 to-brand-orange text-white text-center p-3 text-sm sm:text-base font-bold tracking-wide uppercase shadow-inner">
-                ⚡ Watch Full Video Don’t Miss Important Info! -|- पूरा वीडियो देखिये
-            </div>
-
-            <div class="relative w-full aspect-video bg-black group">
+        <div class="video-container">
+            <div class="video-aspect">
                 <iframe
                     id="vimeo-video"
                     src="https://player.vimeo.com/video/1111314631?autoplay=1&muted=1&background=0"
-                    class="absolute top-0 left-0 w-full h-full"
-                    frameborder="0"
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowfullscreen
-                    title="VSL Presentation">
+                    title="TransformX VSL">
                 </iframe>
-
-                <div id="unmute-overlay" 
-                     class="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center cursor-pointer z-10 transition-all-300 group-hover:bg-black/60">
-                    <div class="bg-brand-orange hover:bg-brand-orangeHover text-white font-bold px-8 py-4 rounded-full flex items-center gap-3 text-lg shadow-xl shadow-brand-orange/30 animate-bounce transition-all-300">
-                        <span>🔊</span> Tap to Unmute & Listen
-                    </div>
-                    <p class="text-gray-400 text-xs mt-3 tracking-wider uppercase">Ensure your device volume is turned up</p>
-                </div>
-            </div>
-
-            <div id="cta-button" class="text-center p-8 bg-brand-dark border-t border-gray-800/40 hidden">
-                <button onclick="openModal()" 
-                        class="inline-block w-full sm:w-auto bg-gradient-to-r from-brand-orange to-orange-500 hover:from-brand-orangeHover hover:to-orange-600 text-white rounded-xl px-12 py-5 font-black text-xl tracking-wide shadow-2xl shadow-brand-orange/30 transform hover:scale-[1.03] transition-all-300 cursor-pointer">
-                    Book Your Consultation Now
-                </button>
-                <p class="text-gray-500 text-xs mt-3">Limited slots available for this month's intake schedule.</p>
-            </div>
-        </div>
-    </main>
-
-    <div id="plan-modal" 
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-black/80 backdrop-blur-lg opacity-0 pointer-events-none transition-opacity duration-300">
-        
-        <div class="bg-brand-dark border border-gray-800 rounded-3xl w-full max-w-5xl max-h-[92vh] overflow-y-auto shadow-2xl transform scale-95 transition-transform duration-300 relative">
-            
-            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white bg-brand-gray w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold transition-colors z-20">
-                &times;
-            </button>
-
-            <div class="p-5 md:p-8">
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
-                        Choose Your <span class="text-brand-orange">Transformation Plan</span>
-                    </h3>
-                    <p class="text-gray-400 mt-1 text-sm">Select a plan below to reveal program guidelines and confirm registration.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    
-                    <div id="card-6k" onclick="selectPlan('6k')" 
-                         class="bg-brand-gray/30 border-2 border-gray-800 rounded-2xl p-5 cursor-pointer hover:border-gray-700 transition-all-300 flex flex-col justify-between group">
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <h4 class="text-lg font-bold text-white group-hover:text-brand-orange transition-colors">Standard Program</h4>
-                                <span class="bg-gray-800 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">1 Month Validity</span>
-                            </div>
-                            <div class="mb-4">
-                                <span class="text-3xl font-black text-white">₹5,999</span>
-                                <span class="text-gray-500 text-xs"> / total</span>
-                            </div>
-                            
-                            <div class="space-y-4">
-                                <div>
-                                    <span class="text-xs font-bold text-brand-orange tracking-wider uppercase block mb-1">What You Get:</span>
-                                    <ul class="space-y-2 text-xs text-gray-300">
-                                        <li class="flex items-center gap-2">📹 <span>Video Call Consultation</span></li>
-                                        <li class="flex items-center gap-2">🍳 <span>Home Cooked based Diet Plan</span></li>
-                                        <li class="flex items-center gap-2">🔄 <span>2 Day Weekly Followup</span></li>
-                                        <li class="flex items-center gap-2">📖 <span>Diet Recipe Book</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-6">
-                            <div class="w-full text-center py-2 rounded-xl border border-gray-700 font-semibold text-xs transition-colors select-indicator text-gray-400">
-                                Select Plan
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="card-10k" onclick="selectPlan('10k')" 
-                         class="bg-brand-gray/30 border-2 border-gray-800 rounded-2xl p-5 cursor-pointer hover:border-gray-700 transition-all-300 flex flex-col justify-between group relative">
-                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-orange text-white text-[10px] font-bold tracking-widest uppercase px-3 py-0.5 rounded-full shadow-lg">
-                            Premium Choice
-                        </div>
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <h4 class="text-lg font-bold text-white group-hover:text-brand-orange transition-colors">Elite Intensive Program</h4>
-                                <span class="bg-brand-orange/20 text-brand-orange text-xs font-semibold px-2.5 py-1 rounded">1 Month Validity</span>
-                            </div>
-                            <div class="mb-4">
-                                <span class="text-3xl font-black text-white">₹10,000</span>
-                                <span class="text-gray-500 text-xs"> / total</span>
-                            </div>
-                            
-                            <div class="space-y-3">
-                                <div>
-                                    <span class="text-xs font-bold text-brand-orange tracking-wider uppercase block mb-1">Phase 1:</span>
-                                    <ul class="space-y-1.5 text-xs text-gray-300">
-                                        <li class="flex items-center gap-2">🤝 <span>Physical Meeting + Video Call Consultation</span></li>
-                                        <li class="flex items-center gap-2">🍳 <span>Home Cooked based Diet Plan</span></li>
-                                        <li class="flex items-center gap-2">📖 <span>Diet Recipe Book</span></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <span class="text-xs font-bold text-brand-orange tracking-wider uppercase block mb-1">Phase 2:</span>
-                                    <ul class="space-y-1.5 text-xs text-gray-300">
-                                        <li class="flex items-center gap-2">📞 <span>Daily Followup call</span></li>
-                                        <li class="flex items-center gap-2">🏋️ <span>Exercise Book</span></li>
-                                        <li class="flex items-center gap-2">🧘 <span>Live Fat-Burning Yoga (30 Sessions)</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-6">
-                            <div class="w-full text-center py-2 rounded-xl border border-gray-700 font-semibold text-xs transition-colors select-indicator text-gray-400">
-                                Select Plan
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="bg-brand-black/40 border border-gray-800 rounded-xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div>
-                        <h5 class="font-bold text-white mb-2 text-brand-orange">🌟 Why Choose Us!</h5>
-                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
-                            <li>Focused on Home cooked meals</li>
-                            <li>No Supplement Needed</li>
-                            <li>Personalized to your lifestyle</li>
-                            <li>Expert Guidance and Support</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h5 class="font-bold text-white mb-1.5 text-red-400">📋 Guidelines & Policy</h5>
-                        <p class="text-gray-400 leading-relaxed mb-1">
-                            <strong class="text-gray-300">Custom Prep:</strong> Ready within 24–48 hours after consultation.
-                        </p>
-                        <p class="text-gray-400 leading-relaxed">
-                            <strong class="text-gray-300">Activation & Refunds:</strong> Must start within 7 days. Plan valid for 30 days. Strictly no refunds under any circumstances.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-800 pt-4 space-y-3">
-                    <label class="flex items-start gap-3 cursor-pointer select-none group">
-                        <input type="checkbox" id="agree-checkbox" onchange="validateForm()" 
-                               class="w-4 h-4 rounded border-gray-700 bg-brand-gray text-brand-orange focus:ring-brand-orange focus:ring-offset-brand-dark transition-all duration-200 mt-0.5">
-                        <span class="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
-                            I confirm that I have read the program guidelines, activation rules, and the strict no-refund policy. I agree to proceed with my chosen weight loss consultation structure.
-                        </span>
-                    </label>
-
-                    <button id="checkout-btn" onclick="redirectToPayment()" disabled
-                            class="w-full bg-gray-700 text-gray-400 font-bold py-3.5 rounded-xl text-base tracking-wide transition-all-300 cursor-not-allowed shadow-lg">
-                        Please Select a Plan
-                    </button>
-                    
-                    <p class="text-center text-[11px] font-bold text-brand-orange tracking-wide pt-1">
-                        Contact us today to start your journey to Better Health
-                    </p>
-                </div>
+                <div id="unmute-overlay" class="unmute-overlay">🔊 Tap to Unmute</div>
             </div>
         </div>
     </div>
 
-    <script>
-        const iframe = document.getElementById('vimeo-video');
-        const player = new Vimeo.Player(iframe);
-        const unmuteOverlay = document.getElementById("unmute-overlay");
-        const ctaButton = document.getElementById("cta-button");
-        const planModal = document.getElementById("plan-modal");
-        const agreeCheckbox = document.getElementById("agree-checkbox");
-        const checkoutBtn = document.getElementById("checkout-btn");
+    <!-- CTA (shown after 7 min) -->
+    <div id="cta-section" class="cta-section">
+        <button class="cta-main-btn" onclick="openModal()">🚀 Book Your Consultation Now</button>
+        <p class="cta-sub">⏱ Limited slots — fills up fast</p>
+    </div>
+</section>
 
-        let selectedPlanId = null;
+<!-- ══════════════════ MODAL ══════════════════ -->
+<div class="modal-overlay" id="planModal">
+    <div class="modal-box">
 
-        // Dedicated links per your configuration
-        const formRoutes = {
-            '6k': 'https://tally.so/r/mVrRy6?plan=6k', 
-            '10k': 'https://tally.so/r/mVrRy6?plan=10k'
+        <div class="modal-header">
+            <h2>🏋️ Choose Your Transformation Plan</h2>
+            <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+        </div>
+
+        <p class="modal-subheading">Select a plan that fits your goal. Both include full coaching & support.</p>
+
+        <div class="plans-grid">
+
+            <!-- PLAN 1: 6K -->
+            <div class="plan-card" id="card-6k" onclick="selectPlan('6k')">
+                <div class="plan-name">Starter Plan</div>
+                <div class="plan-price"><sup>₹</sup>5,999</div>
+                <div class="plan-duration">One-Time Payment · 1 Month Validity</div>
+                <div class="plan-divider"></div>
+
+                <div class="plan-section-label">🎁 What You Get</div>
+                <div class="plan-feature"><span class="check">📹</span><span>Video Call Consultation</span></div>
+                <div class="plan-feature"><span class="check">🏠</span><span>Home Cooked based Diet Plan</span></div>
+                <div class="plan-feature"><span class="check">📅</span><span>2 Day Weekly Followup</span></div>
+                <div class="plan-feature"><span class="check">📖</span><span>Diet Recipe Book</span></div>
+
+                <div class="plan-section-label" style="margin-top:14px;">💡 Why Choose Us</div>
+                <div class="plan-feature"><span class="check">✓</span><span>Focused on Home cooked meal</span></div>
+                <div class="plan-feature"><span class="check">✓</span><span>No Supplement Needed</span></div>
+                <div class="plan-feature"><span class="check">✓</span><span>Personalized to your life style</span></div>
+                <div class="plan-feature"><span class="check">✓</span><span>Expert Guidance and Support</span></div>
+
+                <div class="plan-note">
+                    <strong>Note:</strong> Plan Validity is for One Month Only &nbsp;•&nbsp; No Refund Policy
+                </div>
+
+                <div class="plan-select-row">
+                    <input type="radio" name="plan" id="radio-6k" value="6k" class="plan-radio" onchange="handlePlanChange()">
+                    <label for="radio-6k">Select Starter Plan — ₹5,999</label>
+                </div>
+            </div>
+
+            <!-- PLAN 2: 10K -->
+            <div class="plan-card featured" id="card-10k" onclick="selectPlan('10k')">
+                <div class="plan-badge">⭐ Most Popular</div>
+                <div class="plan-name">Pro Plan</div>
+                <div class="plan-price"><sup>₹</sup>10,000</div>
+                <div class="plan-duration">One-Time Payment · 30 Days from Start</div>
+                <div class="plan-divider"></div>
+
+                <div class="plan-section-label">🎁 What You Get</div>
+                <div class="plan-phase-tag">Phase 1</div>
+                <div class="plan-feature"><span class="check">📹</span><span>Physical Meeting + Video Call Consultation</span></div>
+                <div class="plan-feature"><span class="check">🏠</span><span>Home Cooked based Diet Plan</span></div>
+                <div class="plan-feature"><span class="check">📖</span><span>Diet Recipe Book</span></div>
+
+                <div class="plan-phase-tag">Phase 2</div>
+                <div class="plan-feature"><span class="check">📞</span><span>Daily Followup Call</span></div>
+                <div class="plan-feature"><span class="check">💪</span><span>Exercise Book</span></div>
+                <div class="plan-feature"><span class="check">🧘</span><span>Live Fat-Burning Yoga (30 Sessions)</span></div>
+
+                <div class="plan-section-label" style="margin-top:14px;">💡 Why Choose Us</div>
+                <div class="plan-feature"><span class="check">✓</span><span>Focused on Home cooked meal</span></div>
+                <div class="plan-feature"><span class="check">✓</span><span>No Supplement Needed</span></div>
+                <div class="plan-feature"><span class="check">✓</span><span>Personalized to your life style</span></div>
+                <div class="plan-feature"><span class="check">✓</span><span>Expert Guidance and Support</span></div>
+
+                <div class="plan-section-label" style="margin-top:14px;">📋 Program Guidelines & Policy</div>
+                <div class="plan-feature" style="font-size:12px;"><span class="check" style="font-size:11px;">•</span><span><strong>Custom Plan:</strong> Created & shared within 24–48 hrs of consultation</span></div>
+                <div class="plan-feature" style="font-size:12px;"><span class="check" style="font-size:11px;">•</span><span><strong>Activation:</strong> Must start within 7 days of registration</span></div>
+                <div class="plan-feature" style="font-size:12px;"><span class="check" style="font-size:11px;">•</span><span><strong>Duration:</strong> Valid for 30 days from start date</span></div>
+                <div class="plan-feature" style="font-size:12px;"><span class="check" style="font-size:11px;">•</span><span><strong>Refund Policy:</strong> All registrations are final. No refunds will be provided</span></div>
+
+                <div class="plan-note">
+                    <strong>Note:</strong> Plan Validity is for One Month Only &nbsp;•&nbsp; No Refund Policy
+                </div>
+
+                <div class="plan-select-row">
+                    <input type="radio" name="plan" id="radio-10k" value="10k" class="plan-radio" onchange="handlePlanChange()">
+                    <label for="radio-10k">Select Pro Plan — ₹10,000</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- AGREEMENT -->
+        <div class="agreement-section">
+            <div class="agreement-box">
+                <div class="agreement-check-row">
+                    <input type="checkbox" id="agree-check" class="agreement-check" onchange="handleAgreement()">
+                    <label for="agree-check">
+                        I have read and understood the plan details above. I confirm that I am purchasing the selected plan willingly and understand that <strong>results may vary</strong> based on individual commitment, lifestyle, and health conditions. I agree to the <strong>terms & no-refund policy</strong> after program commencement.
+                    </label>
+                </div>
+            </div>
+            <p class="error-msg" id="error-msg">⚠ Please select a plan and agree to the terms before proceeding.</p>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="payment-section">
+            <button id="pay-btn" class="pay-btn" onclick="proceedToPayment()">
+                🔒 Proceed to Secure Payment
+            </button>
+            <p class="pay-note">🔐 100% Secure · Razorpay / UPI / Cards Accepted</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+    <p>© 2025 TransformX. All rights reserved.<br>
+    Results may vary. This program is not a substitute for medical advice.</p>
+</footer>
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
+<script>
+    /* ── VIMEO ── */
+    var iframe = document.getElementById('vimeo-video');
+    var player = new Vimeo.Player(iframe);
+
+    document.getElementById('unmute-overlay').addEventListener('click', function () {
+        player.setVolume(1);
+        this.style.display = 'none';
+    });
+
+    player.on('timeupdate', function (data) {
+        if (data.seconds >= 7) {
+            document.getElementById('cta-section').style.display = 'block';
+        }
+    });
+
+    /* ── MODAL ── */
+    function openModal() {
+        document.getElementById('planModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('planModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('planModal').addEventListener('click', function (e) {
+        if (e.target === this) closeModal();
+    });
+
+    /* ── PLAN SELECTION ── */
+    var selectedPlan = null;
+
+    function selectPlan(plan) {
+        selectedPlan = plan;
+        document.getElementById('radio-' + plan).checked = true;
+
+        // Highlight cards
+        document.getElementById('card-6k').classList.remove('selected');
+        document.getElementById('card-10k').classList.remove('selected');
+        document.getElementById('card-' + plan).classList.add('selected');
+
+        updatePayButton();
+    }
+
+    function handlePlanChange() {
+        var radios = document.getElementsByName('plan');
+        for (var r of radios) {
+            if (r.checked) selectPlan(r.value);
+        }
+    }
+
+    function handleAgreement() { updatePayButton(); }
+
+    function updatePayButton() {
+        var agreed = document.getElementById('agree-check').checked;
+        var planChosen = selectedPlan !== null;
+        var btn = document.getElementById('pay-btn');
+
+        if (agreed && planChosen) {
+            btn.classList.add('active');
+            var labels = { '6k': '🔒 Pay ₹5,999 — Starter Plan', '10k': '🔒 Pay ₹10,000 — Pro Plan' };
+            btn.textContent = labels[selectedPlan];
+        } else {
+            btn.classList.remove('active');
+            btn.textContent = '🔒 Proceed to Secure Payment';
+        }
+    }
+
+    function proceedToPayment() {
+        var agreed = document.getElementById('agree-check').checked;
+        if (!selectedPlan || !agreed) {
+            document.getElementById('error-msg').style.display = 'block';
+            return;
+        }
+        document.getElementById('error-msg').style.display = 'none';
+
+        var links = {
+            '6k':  'https://rzp.io/rzp/tgMIQJNf',   // ← Replace with your actual 6K payment link
+            '10k': 'https://rzp.io/rzp/mcp1sgV'   // ← Replace with your actual 10K payment link
         };
 
-        /* VIMEO PLAYER CONTROLLER */
-        unmuteOverlay.addEventListener("click", function() {
-            player.setVolume(1).catch(err => console.log(err));
-            unmuteOverlay.classList.add("opacity-0");
-            setTimeout(() => unmuteOverlay.style.display = "none", 300);
-        });
-
-        player.on('timeupdate', function(data) {
-            if (data.seconds >= 4) {
-                ctaButton.style.display = "block";
-                ctaButton.classList.remove("hidden");
-            }
-        });
-
-        /* MODAL INTERFACES CONTROLLERS */
-        function openModal() {
-            planModal.classList.remove("pointer-events-none", "opacity-0");
-            planModal.querySelector('.transform').classList.remove("scale-95");
-            planModal.querySelector('.transform').classList.add("scale-100");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeModal() {
-            planModal.classList.add("pointer-events-none", "opacity-0");
-            planModal.querySelector('.transform').classList.remove("scale-100");
-            planModal.querySelector('.transform').classList.add("scale-95");
-            document.body.style.overflow = "auto";
-        }
-
-        planModal.addEventListener("click", function(e) {
-            if(e.target === planModal) closeModal();
-        });
-
-        /* PRICING ENGINE LOGIC SETUP */
-        function selectPlan(plan) {
-            selectedPlanId = plan;
-            
-            const card6k = document.getElementById("card-6k");
-            const card10k = document.getElementById("card-10k");
-            
-            [card6k, card10k].forEach(card => {
-                card.classList.remove("border-brand-orange", "bg-brand-orange/5");
-                card.classList.add("border-gray-800");
-                card.querySelector('.select-indicator').innerText = "Select Plan";
-                card.querySelector('.select-indicator').className = "w-full text-center py-2 rounded-xl border border-gray-700 font-semibold text-xs transition-colors select-indicator text-gray-400";
-            });
-
-            const activeCard = document.getElementById(`card-${plan}`);
-            activeCard.classList.remove("border-gray-800");
-            activeCard.classList.add("border-brand-orange", "bg-brand-orange/5");
-            activeCard.querySelector('.select-indicator').innerText = "Selected ✓";
-            activeCard.querySelector('.select-indicator').className = "w-full text-center py-2 rounded-xl bg-brand-orange font-bold text-xs text-white shadow-md shadow-brand-orange/20 select-indicator";
-
-            validateForm();
-        }
-
-        /* ACTIONS STATE & DISPATCH EVALUATOR ENGINE */
-        function validateForm() {
-            if (selectedPlanId && agreeCheckbox.checked) {
-                checkoutBtn.removeAttribute("disabled");
-                checkoutBtn.className = "w-full bg-gradient-to-r from-brand-orange to-orange-500 hover:from-brand-orangeHover hover:to-orange-600 text-white font-black py-3.5 rounded-xl text-base tracking-wide transform hover:-translate-y-0.5 active:translate-y-0 transition-all-300 cursor-pointer shadow-lg shadow-brand-orange/20 hover:shadow-brand-orange/40";
-                checkoutBtn.innerText = `Proceed to Consultation (₹${selectedPlanId === '6k' ? '5,599' : '10,000'})`;
-            } else {
-                checkoutBtn.setAttribute("disabled", "true");
-                checkoutBtn.className = "w-full bg-gray-700 text-gray-400 font-bold py-3.5 rounded-xl text-base tracking-wide transition-all-300 cursor-not-allowed shadow-lg";
-                
-                if (!selectedPlanId) {
-                    checkoutBtn.innerText = "Please Select a Plan";
-                } else {
-                    checkoutBtn.innerText = "Please Check the Confirmation Box";
-                }
-            }
-        }
-
-        function redirectToPayment() {
-            if (selectedPlanId && agreeCheckbox.checked) {
-                const targetUrl = formRoutes[selectedPlanId];
-                window.open(targetUrl, "_self");
-            }
-        }
-    </script>
+        window.location.href = links[selectedPlan];
+    }
+</script>
 </body>
 </html>
