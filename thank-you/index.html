@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You — TransformX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #FF5722;
+            --orange-hot: #FF3D00;
+            --orange-glow: rgba(255,87,34,0.35);
+            --orange-light: #FF8A65;
+            --black: #0A0A0A;
+            --black-card: #131313;
+            --black-surface: #1A1A1A;
+            --black-border: #2A2A2A;
+            --white: #FFFFFF;
+            --white-dim: rgba(255,255,255,0.72);
+            --white-faint: rgba(255,255,255,0.06);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Sora', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* ── ANIMATED BG ── */
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255,87,34,0.13), transparent),
+                radial-gradient(ellipse 40% 30% at 80% 80%, rgba(255,61,0,0.07), transparent);
+        }
+
+        /* ── CONFETTI CANVAS ── */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            background: rgba(10,10,10,0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--black-border);
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            flex-shrink: 0;
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-hot));
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 16px var(--orange-glow);
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: var(--white);
+        }
+
+        .logo-text span { color: var(--orange); }
+
+        /* ── MAIN WRAPPER ── */
+        main {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 700px;
+            padding: 48px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        /* ── SUCCESS BADGE ── */
+        .success-ring {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--orange), var(--orange-hot));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 0 0 12px rgba(255,87,34,0.12), 0 0 0 24px rgba(255,87,34,0.05);
+            animation: ring-pop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+            margin-bottom: 28px;
+        }
+
+        @keyframes ring-pop {
+            from { opacity: 0; transform: scale(0.4); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ── HEADING ── */
+        .ty-eyebrow {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--orange-light);
+            margin-bottom: 12px;
+            animation: fade-up 0.5s 0.2s ease both;
+        }
+
+        .ty-heading {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(44px, 10vw, 72px);
+            line-height: 0.95;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 16px;
+            animation: fade-up 0.5s 0.3s ease both;
+        }
+
+        .ty-heading span {
+            color: var(--orange);
+            display: block;
+            text-shadow: 0 0 60px var(--orange-glow);
+        }
+
+        .ty-sub {
+            font-size: clamp(14px, 2.5vw, 16px);
+            color: var(--white-dim);
+            text-align: center;
+            line-height: 1.75;
+            max-width: 500px;
+            font-weight: 300;
+            margin-bottom: 36px;
+            animation: fade-up 0.5s 0.4s ease both;
+        }
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── COACH CARD ── */
+        .coach-card {
+            width: 100%;
+            background: var(--black-card);
+            border: 1px solid var(--black-border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,87,34,0.08);
+            animation: fade-up 0.5s 0.5s ease both;
+            margin-bottom: 28px;
+        }
+
+        .coach-card-inner {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        /* Photo slot */
+        .coach-photo-wrap {
+            flex-shrink: 0;
+            width: 180px;
+            min-height: 220px;
+            background: var(--black-surface);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coach-photo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+
+        .coach-info {
+            flex: 1;
+            padding: 24px 22px;
+        }
+
+        .coach-tag {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--orange-hot), var(--orange));
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 12px;
+        }
+
+        .coach-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(26px, 5vw, 34px);
+            letter-spacing: 2px;
+            line-height: 1;
+            margin-bottom: 6px;
+            color: var(--white);
+        }
+
+        .coach-title {
+            font-size: 13px;
+            color: var(--orange-light);
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .coach-msg {
+            font-size: 13px;
+            color: var(--white-dim);
+            line-height: 1.75;
+            font-weight: 300;
+            font-style: italic;
+            border-left: 3px solid var(--orange);
+            padding-left: 14px;
+        }
+
+        /* ── NEXT STEPS ── */
+        .steps-card {
+            width: 100%;
+            background: var(--black-card);
+            border: 1px solid var(--black-border);
+            border-radius: 20px;
+            padding: 28px 24px;
+            animation: fade-up 0.5s 0.6s ease both;
+            margin-bottom: 28px;
+        }
+
+        .steps-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .steps-title span { color: var(--orange); }
+
+        .step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .step-row:last-child { margin-bottom: 0; }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--orange), var(--orange-hot));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px var(--orange-glow);
+        }
+
+        .step-text strong {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: var(--white);
+        }
+
+        .step-text p {
+            font-size: 12.5px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.55;
+        }
+
+        /* ── WHATSAPP BUTTON ── */
+        .wa-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 420px;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 18px 32px;
+            border-radius: 14px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+            font-size: clamp(15px, 3vw, 18px);
+            box-shadow: 0 8px 28px rgba(37,211,102,0.35);
+            transition: transform 0.25s, box-shadow 0.25s;
+            animation: fade-up 0.5s 0.7s ease both;
+            margin-bottom: 14px;
+        }
+
+        .wa-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(37,211,102,0.45);
+        }
+
+        .wa-icon {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .wa-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.28);
+            text-align: center;
+            animation: fade-up 0.5s 0.75s ease both;
+            margin-bottom: 40px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            text-align: center;
+            padding: 24px 5%;
+            border-top: 1px solid var(--black-border);
+        }
+
+        footer p {
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.22);
+            line-height: 1.8;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 520px) {
+            .coach-card-inner { flex-direction: column; }
+            .coach-photo-wrap {
+                width: 100%;
+                min-height: 220px;
+                height: 220px;
+            }
+            .coach-info { padding: 20px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ── NAVBAR ── -->
+<nav>
+    <a href="#" class="logo-wrap">
+        <div class="logo-icon">TX</div>
+        <div class="logo-text">TRANSFORM<span>X</span></div>
+    </a>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+
+    <!-- Success Ring -->
+    <div class="success-ring">✅</div>
+
+    <!-- Heading -->
+    <p class="ty-eyebrow">Payment Successful</p>
+    <h1 class="ty-heading">
+        WELCOME TO THE<br>
+        <span>TRANSFORMATION!</span>
+    </h1>
+    <p class="ty-sub">
+        Your payment has been received. You're now officially part of the TransformX family. 
+        Bhupendra Sir will personally reach out to you within <strong style="color:var(--white);">24–48 hours</strong> to kickstart your journey.
+    </p>
+
+    <!-- ── COACH CARD ── -->
+    <div class="coach-card">
+        <div class="coach-card-inner">
+
+            <!-- Photo Slot -->
+            <div class="coach-photo-wrap" id="photo-wrap">
+                <!-- ↓↓ PASTE BHUPENDRA SIR'S PHOTO LINK BELOW (replace the src="...") ↓↓ -->
+                <img src="PASTE_PHOTO_LINK_HERE" alt="Bhupendra Sir">
+            </div>
+
+            <!-- Info -->
+            <div class="coach-info">
+                <div class="coach-tag">Your Coach</div>
+                <div class="coach-name">Bhupendra Sir</div>
+                <div class="coach-title">Certified Diet & Weight Loss Coach</div>
+                <p class="coach-msg">
+                    "Congratulations on taking the first step! I'm personally committed to your transformation. 
+                    See you on our first call — let's make this happen together."
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── NEXT STEPS ── -->
+    <div class="steps-card">
+        <div class="steps-title">WHAT HAPPENS <span>NEXT?</span></div>
+
+        <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-text">
+                <strong>Check Your WhatsApp</strong>
+                <p>Join the WhatsApp group link — you'll receive it within a few hours of payment.</p>
+            </div>
+        </div>
+
+        <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-text">
+                <strong>Consultation Scheduled</strong>
+                <p>Bhupendra Sir's team will contact you within 24–48 hours to schedule your first video call.</p>
+            </div>
+        </div>
+
+        <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-text">
+                <strong>Your Plan Is Created</strong>
+                <p>Your personalised diet plan and recipe book will be shared after your consultation.</p>
+            </div>
+        </div>
+
+        <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-text">
+                <strong>Begin Your Transformation</strong>
+                <p>Follow the plan, stay consistent, and watch the results unfold. We've got you every step of the way!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── WHATSAPP BUTTON ── -->
+    <!--
+        Replace the href below with your actual WhatsApp link.
+        Format: https://wa.me/91XXXXXXXXXX?text=YOUR+MESSAGE
+        Example: https://wa.me/919876543210?text=Hi+Bhupendra+Sir,+I+just+completed+my+payment!
+    -->
+    <a class="wa-btn"
+       href="https://wa.me/919999999999?text=Hi%20Bhupendra%20Sir%2C%20I%20just%20completed%20my%20payment%20for%20the%20TransformX%20program!%20Looking%20forward%20to%20starting%20my%20journey.%20%F0%9F%94%A5"
+       target="_blank"
+       rel="noopener">
+        <svg class="wa-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Chat with Bhupendra Sir on WhatsApp
+    </a>
+
+    <p class="wa-sub">We typically reply within 1–2 hours during business hours</p>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+    <p>© 2025 TransformX. All rights reserved.<br>
+    Results may vary. This program is not a substitute for medical advice. No Refund Policy.</p>
+</footer>
+
+<!-- ── SCRIPTS ── -->
+<script>
+    /* ── CONFETTI ── */
+    (function () {
+        var canvas = document.getElementById('confetti-canvas');
+        var ctx = canvas.getContext('2d');
+        var W, H, particles = [];
+        var colors = ['#FF5722','#FF3D00','#FF8A65','#FFFFFF','#FFB300','#FF6D00'];
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        function rand(min, max) { return Math.random() * (max - min) + min; }
+
+        // Spawn particles
+        for (var i = 0; i < 120; i++) {
+            particles.push({
+                x: rand(0, W),
+                y: rand(-H, 0),
+                w: rand(6, 14),
+                h: rand(8, 18),
+                color: colors[Math.floor(rand(0, colors.length))],
+                rotation: rand(0, 360),
+                rotSpeed: rand(-4, 4),
+                vx: rand(-1.5, 1.5),
+                vy: rand(2, 5),
+                opacity: 1
+            });
+        }
+
+        var frame = 0;
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            frame++;
+            particles.forEach(function (p) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rotation += p.rotSpeed;
+                if (frame > 120) p.opacity = Math.max(0, p.opacity - 0.008);
+                ctx.save();
+                ctx.globalAlpha = p.opacity;
+                ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                ctx.restore();
+            });
+            // Remove dead particles
+            particles = particles.filter(function (p) { return p.opacity > 0 && p.y < H + 40; });
+            if (particles.length > 0) requestAnimationFrame(draw);
+            else ctx.clearRect(0, 0, W, H);
+        }
+        draw();
+    })();
+</script>
+</body>
+</html>
